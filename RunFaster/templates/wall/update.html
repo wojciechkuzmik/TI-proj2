@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Edytuj bieg{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <h2>Czas</h2>
+    <label for="hours">Godziny</label>
+    <input name="hours" id="hours" value="{{ request.form['hours'] or run['h'] }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+    <label for="minutes">Minuty</label>
+    <input name="minutes" id="minutes" value="{{ request.form['minutes'] or run['m'] }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+    <label for="seconds">Sekundy</label>
+    <input name="seconds" id="seconds" value="{{ request.form['seconds'] or run['s'] }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+    <br>
+    <label for="distance">Dystans [km]</label>
+    <input name="distance" id="distance" value="{{ request.form['distance'] or run['dist'] }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))">
+    <input type="submit" value="Zapisz">
+  </form>
+  <hr>
+  <form action="{{ url_for('wall.delete', id=run['id']) }}" method="post">
+    <input class="danger" type="submit" value="Usuń" onclick="return confirm('Czy jesteś pewien?');">
+  </form>
+{% endblock %}

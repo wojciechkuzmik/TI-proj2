@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Biegi{% endblock %}</h1>
+  {% if g.user %}
+    <a class="action" href="{{ url_for('wall.create') }}">Nowy bieg</a>
+  {% endif %}
+  <style>
+    table{
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid black;
+  }
+
+ th, td {
+    border-collapse: collapse;
+    border: 1px solid black;
+    text-align: center;
+  }
+  </style>
+{% endblock %}
+
+{% block content %}
+<h3>Łącznie przebiegłeś już {{ totalDist }} km!</h3>
+<table>
+    <tr>
+        <th>Data</th>
+        <th>Czas</th>
+        <th>Dystans</th>
+        <th>Średnia prędkość</th>
+        <th></th>
+    </tr>
+    {% for run in runs %}
+        <tr>
+            <td>{{ run['created'].strftime('%Y-%m-%d') }}</td>
+            <td>{{ run['h'] }}h:{{ run['m'] }}m:{{ run['s'] }}s</td>
+            <td>{{ run['dist'] }} km</td>
+            <td>{{ '%0.1f' % run['speed'] }} km/h</td>
+            <td><a class="action" href="{{ url_for('wall.update', id=run['id']) }}">Edit</a></td>
+        </tr>
+    {% endfor %}
+</table>
+<br><br>
+<canvas id="myChart"></canvas>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+<script>
+    let myChart = document.getElementById('myChart').getContext('2d');
+    var myLineChart = new Chart(myChart, {
+        type: 'line',
+        data: {
+            labels: {{ dateArray | tojson  }},
+            datasets: [{
+                data: {{ speedArray | tojson }} 
+            }]
+        },
+        options: {
+            title: {
+            display: true,
+            text: 'Średnia prędkość'
+            }
+        }
+    });
+</script>
+    
+{% endblock %}

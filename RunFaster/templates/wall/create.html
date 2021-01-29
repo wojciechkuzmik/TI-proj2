@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Nowy bieg{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <h2>Czas</h2>
+    <label for="hours">Godziny</label>
+    <input name="hours" id="hours" value="{{ request.form['hours'] or 0 }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+    <label for="minutes">Minuty</label>
+    <input name="minutes" id="minutes" value="{{ request.form['minutes'] or 0 }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+    <label for="seconds">Sekundy</label>
+    <input name="seconds" id="seconds" value="{{ request.form['seconds'] or 0 }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+    <br>
+    <label for="distance">Dystans [km]</label>
+    <input name="distance" id="distance" value="{{ request.form['distance'] or 0 }}" onkeypress="return (event.charCode !=8 && event.charCode ==0 || ( event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)))" />
+    <input type="submit" value="Zapisz">
+  </form>
+{% endblock %}

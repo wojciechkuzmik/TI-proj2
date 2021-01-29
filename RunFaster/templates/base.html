@@ -1,0 +1,30 @@
+<!doctype html>
+<meta charset= "utf-8">
+<title>{% block title %}{% endblock %} - RunFaster</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" type="text/css">
+<script type="text/javascript" src="{{ url_for('static', filename='script.js')}}"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<nav>
+  <h1>RunFaster</h1>
+  <ul>
+    {% if g.user %}
+      <li><span>{{ g.user['username'] }}</span>
+      <li><a href="javascript:synchronize_data();">Synchronizuj dane online</a>
+      <li><a href="{{ url_for('auth.logout') }}">Wyloguj się</a>
+    {% else %}
+      <li><a href="{{ url_for('auth.register') }}">Zarejestruj się</a>
+      <li><a href="{{ url_for('auth.login') }}">Zaloguj się</a>
+      <li><a href="javascript:offline();">Wstaw dane offline</a>
+    {% endif %}
+  </ul>
+</nav>
+<section class="content">
+  <header>
+    {% block header %}{% endblock %}
+  </header>
+  {% for message in get_flashed_messages() %}
+    <div class="flash">{{ message }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+  <div id="offline_form"></div>
+</section>

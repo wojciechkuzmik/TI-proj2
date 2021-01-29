@@ -1,4 +1,4 @@
-from RunFaster import app
+from RunFaster.app import app
 
 if __name__ == '__main__':
     app.run(debug=True)
